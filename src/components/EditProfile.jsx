@@ -41,91 +41,108 @@ function EditProfile({ user }) {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row justify-center items-start gap-8 p-4 min-h-screen bg-base-200">
+    <div className="flex flex-col lg:flex-row justify-center items-start gap-8">
       {/* Form Section */}
-      <div className="card bg-base-100 w-full max-w-sm shadow-md">
-        <div className="card-body">
-          <h2 className="text-xl font-semibold mb-2">Edit Profile</h2>
-          <form onSubmit={saveProfile} className="space-y-4">
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">First Name</span>
-              </label>
-              <input
-                type="text"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                className="input input-bordered"
-              />
+      <div className="w-full max-w-md bg-white rounded-xl shadow-md mb-8 lg:mb-0">
+        <div className="p-6 md:p-8">
+          <h2 className="text-xl font-bold mb-6 text-[#1F1F1F] border-b border-[rgba(0,0,0,0.06)] pb-3">Edit Your Profile</h2>
+          
+          {error && (
+            <div className="mb-6 p-3 bg-red-50 border-l-4 border-red-500 text-red-700 text-sm rounded">
+              {error}
+            </div>
+          )}
+          
+          <form onSubmit={saveProfile} className="space-y-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div>
+                <label className="block text-sm font-medium text-[#1F1F1F] mb-1">
+                  First Name
+                </label>
+                <input
+                  type="text"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  className="w-full px-3 py-2 rounded-lg border border-[rgba(0,0,0,0.06)] focus:outline-none focus:border-[#FF6F91]"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-[#1F1F1F] mb-1">
+                  Last Name
+                </label>
+                <input
+                  type="text"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  className="w-full px-3 py-2 rounded-lg border border-[rgba(0,0,0,0.06)] focus:outline-none focus:border-[#FF6F91]"
+                />
+              </div>
             </div>
 
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Last Name</span>
-              </label>
-              <input
-                type="text"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                className="input input-bordered"
-              />
-            </div>
-
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Photo URL</span>
+            <div>
+              <label className="block text-sm font-medium text-[#1F1F1F] mb-1">
+                Photo URL
               </label>
               <input
                 type="text"
                 value={photoUrl}
                 onChange={(e) => setPhotoUrl(e.target.value)}
-                className="input input-bordered"
+                className="w-full px-3 py-2 rounded-lg border border-[rgba(0,0,0,0.06)] focus:outline-none focus:border-[#FF6F91]"
+                placeholder="Enter image URL"
               />
             </div>
 
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Age</span>
-              </label>
-              <input
-                type="number"
-                value={age}
-                onChange={(e) =>
-                  setAge(e.target.value ? Number(e.target.value) : "")
-                }
-                className="input input-bordered"
-              />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div>
+                <label className="block text-sm font-medium text-[#1F1F1F] mb-1">
+                  Age
+                </label>
+                <input
+                  type="number"
+                  value={age}
+                  onChange={(e) =>
+                    setAge(e.target.value ? Number(e.target.value) : "")
+                  }
+                  className="w-full px-3 py-2 rounded-lg border border-[rgba(0,0,0,0.06)] focus:outline-none focus:border-[#FF6F91]"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-[#1F1F1F] mb-1">
+                  Gender
+                </label>
+                <select
+                  value={gender}
+                  onChange={(e) => setGender(e.target.value)}
+                  className="w-full px-3 py-2 rounded-lg border border-[rgba(0,0,0,0.06)] focus:outline-none focus:border-[#FF6F91] bg-white"
+                >
+                  <option value="">Select Gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>
+              </div>
             </div>
 
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Gender</span>
-              </label>
-              <select
-                value={gender}
-                onChange={(e) => setGender(e.target.value)}
-                className="select select-bordered"
-              >
-                <option value="">Select Gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-              </select>
-            </div>
-
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">About</span>
+            <div>
+              <label className="block text-sm font-medium text-[#1F1F1F] mb-1">
+                About
               </label>
               <textarea
                 value={about}
                 onChange={(e) => setAbout(e.target.value)}
-                className="textarea textarea-bordered"
+                rows="4"
+                className="w-full px-3 py-2 rounded-lg border border-[rgba(0,0,0,0.06)] focus:outline-none focus:border-[#FF6F91] resize-none"
+                placeholder="Write something about yourself..."
               ></textarea>
             </div>
 
-            <div className="form-control mt-6">
-              <button type="submit" className="btn btn-primary">
-                Save Changes
+            <div className="mt-6">
+              <button 
+                type="submit" 
+                className="w-full bg-[#FF6F91] hover:bg-[#FF3C69] text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-200"
+              >
+                Save Profile
               </button>
             </div>
           </form>
@@ -133,8 +150,8 @@ function EditProfile({ user }) {
       </div>
 
       {/* Live Preview Section */}
-      <div>
-        <h2 className="text-xl font-semibold mb-4">Live Preview</h2>
+      <div className="w-full max-w-md">
+        <h2 className="text-xl font-bold mb-6 text-[#1F1F1F]">Profile Preview</h2>
         <UseCard user={{ firstName, lastName, photoUrl, age, gender, about }} />
       </div>
     </div>

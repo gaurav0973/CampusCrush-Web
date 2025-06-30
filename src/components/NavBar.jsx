@@ -19,50 +19,61 @@ function NavBar() {
     }
   }
   return (
-    <div className="navbar bg-base-100 shadow-sm">
-      <div className="flex-1">
-        <Link to="/" className="btn btn-ghost text-xl">CampusCrush💌</Link>
-      </div>
-      {user &&
-      <div className="flex items-center">
-        <p className="text-lg font-semibold mr-4">
-          {user.firstName}
-        </p>
-        <div className="dropdown dropdown-end mx-4">
-          <div
-            tabIndex={0}
-            role="button"
-            className="btn btn-ghost btn-circle avatar"
-          >
-            <div className="w-10 rounded-full">
-              <img
-                alt="Tailwind CSS Navbar component"
-                src={user.photoUrl || "https://i.pravatar.cc/300"}
-              />
+    <div className="sticky top-0 z-50 bg-[#FFF9FB] shadow-sm py-3">
+      <div className="container mx-auto flex justify-between items-center px-4">
+        <Link to="/" className="font-bold text-2xl">
+          <span className="text-[#FF6F91]">Campus</span>
+          <span className="text-[#1F1F1F]">Crush</span>
+          <span className="ml-1">💌</span>
+        </Link>
+        {user &&
+        <div className="flex items-center">
+          <p className="text-lg font-medium mr-4 text-[#1F1F1F] hidden sm:block">
+            Hi, {user.firstName}
+          </p>
+          <div className="dropdown dropdown-end">
+            <div
+              tabIndex={0}
+              role="button"
+              className="relative"
+            >
+              <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-[#FF6F91] cursor-pointer hover:opacity-90 transition-opacity duration-200">
+                <img
+                  alt="User profile"
+                  className="w-full h-full object-cover"
+                  src={user.photoUrl || "https://i.pravatar.cc/300"}
+                />
+              </div>
             </div>
+            <ul
+              tabIndex={0}
+              className="menu dropdown-content bg-white rounded-xl z-10 mt-3 w-56 p-3 shadow-lg right-0 border border-[rgba(0,0,0,0.06)]"
+            >
+              <li className="mb-1">
+                <Link to="/profile" className="px-4 py-2 text-[#1F1F1F] hover:bg-[#FFF9FB] rounded-lg transition-colors">
+                  <span>Profile</span>
+                </Link>
+              </li>
+              <li className="mb-1">
+                <Link to="/connections" className="px-4 py-2 text-[#1F1F1F] hover:bg-[#FFF9FB] rounded-lg transition-colors">
+                  <span>Connections</span>
+                </Link>
+              </li>
+              <li className="mb-1">
+                <Link to="/requests" className="px-4 py-2 text-[#1F1F1F] hover:bg-[#FFF9FB] rounded-lg transition-colors">
+                  <span>Requests</span>
+                </Link>
+              </li>
+              <li>
+                <button onClick={handleLogout} className="px-4 py-2 text-[#FF3C69] hover:bg-[#FFF9FB] rounded-lg transition-colors">
+                  <span>Logout</span>
+                </button>
+              </li>
+            </ul>
           </div>
-          <ul
-            tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
-          >
-            <li>
-              <Link to="/profile" className="justify-between">
-                Profile
-              </Link>
-            </li>
-            <li>
-              <Link to="/connections">Connections</Link>
-            </li>
-            <li>
-              <Link to="/requests">Requests</Link>
-            </li>
-            <li>
-              <a onClick={handleLogout}>Logout</a>
-            </li>
-          </ul>
         </div>
+      }
       </div>
-}
     </div>
   );
 }

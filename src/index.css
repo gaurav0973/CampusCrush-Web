@@ -1,2 +1,58 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+@layer base {
+  :root {
+    /* Primary Colors */
+    --color-primary: #FF6F91;
+    --color-accent: #FF3C69;
+    --color-secondary: #6EC5E9;
+    
+    /* Background & Neutral Tones */
+    --color-background: #FFF9FB;
+    --color-card: #FFFFFF;
+    --color-text-primary: #1F1F1F;
+    --color-text-muted: #7B7B7B;
+    --color-border: rgba(0,0,0,0.06);
+  }
+
+  .dark {
+    /* Dark Mode Colors */
+    --color-background: #141414;
+    --color-card: #1E1E1E;
+    --color-text-primary: #FFFFFF;
+    --color-accent: #FF6F91;
+    --color-text-muted: #A0A0A0;
+  }
+}
+
+/* Custom Utility Classes */
+.bg-campus-gradient {
+  background: linear-gradient(135deg, #FF6F91, #FF3C69);
+}
+
+.bg-campus-light {
+  background-color: #FFF9FB;
+}
+
+.text-campus-primary {
+  color: #FF6F91;
+}
+
+.text-campus-secondary {
+  color: #6EC5E9;
+}
+
+.border-campus-primary {
+  border-color: #FF6F91;
+}
+
+.hover-campus-primary:hover {
+  background-color: #FF6F91;
+  color: white;
+}
+
+.hover-campus-secondary:hover {
+  background-color: #6EC5E9;
+  color: white;
+}
