@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import UseCard from "./UseCard";
 import axios from "axios";
@@ -8,32 +9,36 @@ function EditProfile({ user }) {
   const [firstName, setFirstName] = useState(user.firstName || "");
   const [lastName, setLastName] = useState(user.lastName || "");
   const [photoUrl, setPhotoUrl] = useState(user.photoUrl || "");
-  const [age, setAge] = useState(user.age || "");
+  const [age, setAge] = useState(user.age ? Number(user.age) : "");
   const [gender, setGender] = useState(user.gender || "");
   const [about, setAbout] = useState(user.about || "");
   const [error, setError] = useState("");
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const saveProfile = async (e)=>{
+  const saveProfile = async (e) => {
     e.preventDefault();
-    setError("")
+    setError("");
     try {
-        const res = await axios.patch("http://localhost:7777/profile/edit",{
+      const res = await axios.patch(
+        "http://localhost:7777/profile/edit",
+        {
           firstName,
           lastName,
           photoUrl,
-          age,
+          age: age ? Number(age) : null,
           gender,
-          about
-        }, { withCredentials: true });
-        console.log("save profile called", res?.data?.data)
-        dispatch(addUser(res?.data?.data))
+          about,
+        },
+        { withCredentials: true }
+      );
+      console.log("save profile called", res?.data?.data);
+      dispatch(addUser(res?.data?.data));
     } catch (error) {
-        setError("Failed to save profile. Please try again.");
-        console.error("Error saving profile:", error);
+      setError("Failed to save profile. Please try again.");
+      console.error("Error saving profile:", error);
     }
-  }
+  };
 
   return (
     <div className="flex flex-col lg:flex-row justify-center items-start gap-8 p-4 min-h-screen bg-base-200">
@@ -85,7 +90,9 @@ function EditProfile({ user }) {
               <input
                 type="number"
                 value={age}
-                onChange={(e) => setAge(e.target.value)}
+                onChange={(e) =>
+                  setAge(e.target.value ? Number(e.target.value) : "")
+                }
                 className="input input-bordered"
               />
             </div>
