@@ -43,7 +43,7 @@ function Connections() {
   return (
     <div className="border rounded-lg p-4 bg-base-100 shadow-md max-w-3xl mx-auto mt-8">
       {connections.map((connection) => {
-        const { firstName, lastName, photoUrl, age, _id, about } = connection;
+        const { firstName, lastName, photoUrl, age, _id, about, gender } = connection;
         return (
           <div key={_id} className="card bg-base-100 shadow-sm mb-4">
             <div className="card-body">
@@ -55,7 +55,8 @@ function Connections() {
                 />
                 <div>
                   <h2 className="card-title text-lg">{firstName} {lastName}</h2>
-                  <p className="text-sm text-gray-500">Age: {age}</p>
+                  {age && <p className="text-sm text-gray-500">{age}</p>}
+                  {gender && <p className="text-sm text-gray-500">{gender}</p>}
                 </div>
               </div>
               <p className="text-sm text-gray-600 mt-2">{about}</p>
