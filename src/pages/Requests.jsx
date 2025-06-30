@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addRequest } from "../utils/requestSlice";
+import { addRequest, removeRequest } from "../utils/requestSlice";
 
 function Requests() {
   const dispatch = useDispatch();
@@ -13,15 +13,33 @@ function Requests() {
         const res = await axios.get("http://localhost:7777/user/request/received", {
           withCredentials: true,
         });
-        // console.log("Requests:", res?.data?.data);
         dispatch(addRequest(res?.data?.data));
       } catch (error) {
-        console.error("Error fetching requests:", error);
+        console.error("Error fetching requests:", error);  
       }
     };
 
-    if (!requests?.length) fetchRequests();
+    if (!requests?.length) 
+        fetchRequests();
   }, [dispatch, requests]);
+
+  const handleReview = async (status, _id) => {
+    try {
+      const res = await axios.post(
+        `http://localhost:7777/request/review/${status}/${_id}`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+      console.log("Review response:", res);
+
+      
+      dispatch(removeRequest(_id));
+    } catch (error) {
+      console.error("Error handling review:", error);
+    }
+  };
 
   if (!requests) {
     return (
@@ -60,6 +78,20 @@ function Requests() {
                 </div>
               </div>
               <p className="text-sm text-gray-600 mt-2">{about}</p>
+              <div className="mt-4 flex justify-end space-x-2">
+                <button
+                  onClick={() => handleReview("accepted", request._id)}
+                  className="btn btn-primary"
+                >
+                  Accept
+                </button>
+                <button
+                  onClick={() => handleReview("rejected", request._id)}
+                  className="btn btn-secondary"
+                >
+                  Reject
+                </button>
+              </div>
             </div>
           </div>
         );
