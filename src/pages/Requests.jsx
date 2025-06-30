@@ -15,7 +15,8 @@ function Requests() {
         });
         dispatch(addRequest(res?.data?.data));
       } catch (error) {
-        console.error("Error fetching requests:", error);  
+        console.log("Error fetching requests:", error
+        );  
       }
     };
 

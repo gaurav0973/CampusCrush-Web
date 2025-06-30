@@ -24,6 +24,21 @@ function Feed() {
         getFeed()
     }, [])
 
+    if(!feed) {
+        return (
+            <div className="flex justify-center items-center min-h-screen bg-base-200">
+                <p className="text-lg font-semibold">Loading feed...</p>
+            </div>
+        )
+    }
+
+    if (feed.length === 0) {
+        return (
+            <div className="flex justify-center items-center min-h-screen bg-base-200">
+                <p className="text-lg font-semibold">No new connections found.</p>
+            </div>
+        )
+    }
 
   return (
     feed && (

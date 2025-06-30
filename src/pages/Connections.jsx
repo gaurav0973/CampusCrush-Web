@@ -10,11 +10,11 @@ function Connections() {
   useEffect(() => {
     const fetchConnections = async () => {
       try {
-        if (connections?.length) return; // prevent re-fetch if already present
+        if (connections?.length) 
+          return; 
         const res = await axios.get("http://localhost:7777/user/connections", {
           withCredentials: true,
         });
-        console.log("fetch connections called", res?.data?.data.length);
         dispatch(addConnections(res?.data?.data));
       } catch (error) {
         console.error("Error fetching connections:", error);
@@ -22,7 +22,7 @@ function Connections() {
     };
 
     fetchConnections();
-  }, [dispatch, connections]);
+  }, []);
 
   if (!connections) {
     return (
