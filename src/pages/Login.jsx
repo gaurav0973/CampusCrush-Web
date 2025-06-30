@@ -1,20 +1,28 @@
 import axios from "axios";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice.js";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
 
-    const [emailId , setEmailId] = useState("");
-    const [password , setPassword] = useState("");
+    const [emailId , setEmailId] = useState("virat@gmail.com");
+    const [password , setPassword] = useState("Virat@123");
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const handleSubmitBtn = async (e) => {
         e.preventDefault();
         console.log("Email:", emailId);
         console.log("Password:", password);
         // Here you can add your login logic, like calling an API
-        await axios.post("http://localhost:7777/login", {
+        const res = await axios.post("http://localhost:7777/login", {
             emailId: emailId,
             password: password
         }, {withCredentials: true})
+        dispatch(addUser(res.data.data))
+        navigate("/")
+        
     }
 
   return (
