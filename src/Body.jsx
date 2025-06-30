@@ -1,14 +1,16 @@
-import { Outlet } from "react-router-dom"
+import {  Outlet, useNavigate } from "react-router-dom"
 import NavBar from "./components/NavBar"
 import Footer from "./components/Footer"
 import axios from "axios"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { addUser } from "./utils/userSlice"
 import { useEffect } from "react"
 
 function Body() {
 
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const userData = useSelector((store) => store.user)
 
   const fetchUser = async () => {
     try {
@@ -16,13 +18,16 @@ function Body() {
       const res = await axios.get("http://localhost:7777/profile/view", { withCredentials: true })
       dispatch(addUser(res.data.data))
     } catch (error) {
+      navigate("/login")
       console.error("Error fetching user data:", error);
     }
   }
 
 
   useEffect(()=>{
-    fetchUser()
+    if(!userData) {
+      fetchUser()
+    }
   }, [])
   return (
     <>
