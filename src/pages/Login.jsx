@@ -8,20 +8,23 @@ function Login() {
 
     const [emailId , setEmailId] = useState("virat@gmail.com");
     const [password , setPassword] = useState("Virat@123");
+    const [error, setError] = useState("");
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
     const handleSubmitBtn = async (e) => {
         e.preventDefault();
-        console.log("Email:", emailId);
-        console.log("Password:", password);
-        // Here you can add your login logic, like calling an API
-        const res = await axios.post("http://localhost:7777/login", {
+        
+        try {
+          const res = await axios.post("http://localhost:7777/login", {
             emailId: emailId,
             password: password
-        }, {withCredentials: true})
-        dispatch(addUser(res.data.data))
-        navigate("/")
+          }, {withCredentials: true})
+          dispatch(addUser(res.data.data))
+          navigate("/")
+        } catch (error) {
+          setError(error.response?.data?.message || "Login failed. Please try again.");
+        } 
         
     }
 
@@ -53,6 +56,7 @@ function Login() {
             placeholder="Enter your password" 
             className="input input-bordered w-full" />
           </div>
+          <p className="text-red-500">{error}</p>
 
           <div className="form-control">
             <button
