@@ -10,20 +10,16 @@ function Requests() {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const res = await axios.get(
-          "http://localhost:7777/user/request/received",
-          {
-            withCredentials: true,
-          }
-        );
+        const res = await axios.get("http://localhost:7777/user/request/received",{withCredentials: true});
         dispatch(addRequest(res?.data?.data));
       } catch (error) {
-        console.log("Error fetching requests:", error);
+        console.log("Error fetching requests:", error.message);
       }
     };
 
-    if (!requests?.length) fetchRequests();
-  }, [dispatch, requests]);
+    if (!requests?.length) 
+      fetchRequests();
+  }, []);
 
   const handleReview = async (status, _id) => {
     try {

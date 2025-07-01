@@ -262,17 +262,6 @@ function Login() {
           <span className="heartbeat text-lg">❤️</span>
           <span>for college students</span>
         </div>
-        <div className="flex space-x-3">
-          <span className="hover:text-[#FF3C69] cursor-pointer transition-colors">
-            Privacy
-          </span>
-          <span className="hover:text-[#FF3C69] cursor-pointer transition-colors">
-            Terms
-          </span>
-          <span className="hover:text-[#FF3C69] cursor-pointer transition-colors">
-            Support
-          </span>
-        </div>
       </div>
     </div>
   );
