@@ -45,14 +45,16 @@ function EditProfile({ user }) {
       {/* Form Section */}
       <div className="w-full max-w-md bg-white rounded-xl shadow-md mb-8 lg:mb-0">
         <div className="p-6 md:p-8">
-          <h2 className="text-xl font-bold mb-6 text-[#1F1F1F] border-b border-[rgba(0,0,0,0.06)] pb-3">Edit Your Profile</h2>
-          
+          <h2 className="text-xl font-bold mb-6 text-[#1F1F1F] border-b border-[rgba(0,0,0,0.06)] pb-3">
+            Edit Your Profile
+          </h2>
+
           {error && (
             <div className="mb-6 p-3 bg-red-50 border-l-4 border-red-500 text-red-700 text-sm rounded">
               {error}
             </div>
           )}
-          
+
           <form onSubmit={saveProfile} className="space-y-5">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
@@ -63,7 +65,7 @@ function EditProfile({ user }) {
                   type="text"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg border border-[rgba(0,0,0,0.06)] focus:outline-none focus:border-[#FF6F91]"
+                  className="w-full px-3 py-2 rounded-lg border border-[rgba(0,0,0,0.06)] focus:outline-none focus:border-[#FF6F91] text-[#1F1F1F]"
                 />
               </div>
 
@@ -75,7 +77,7 @@ function EditProfile({ user }) {
                   type="text"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg border border-[rgba(0,0,0,0.06)] focus:outline-none focus:border-[#FF6F91]"
+                  className="w-full px-3 py-2 rounded-lg border border-[rgba(0,0,0,0.06)] focus:outline-none focus:border-[#FF6F91] text-[#1F1F1F]"
                 />
               </div>
             </div>
@@ -88,7 +90,7 @@ function EditProfile({ user }) {
                 type="text"
                 value={photoUrl}
                 onChange={(e) => setPhotoUrl(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-[rgba(0,0,0,0.06)] focus:outline-none focus:border-[#FF6F91]"
+                className="w-full px-3 py-2 rounded-lg border border-[rgba(0,0,0,0.06)] focus:outline-none focus:border-[#FF6F91] text-[#1F1F1F]"
                 placeholder="Enter image URL"
               />
             </div>
@@ -104,7 +106,7 @@ function EditProfile({ user }) {
                   onChange={(e) =>
                     setAge(e.target.value ? Number(e.target.value) : "")
                   }
-                  className="w-full px-3 py-2 rounded-lg border border-[rgba(0,0,0,0.06)] focus:outline-none focus:border-[#FF6F91]"
+                  className="w-full px-3 py-2 rounded-lg border border-[rgba(0,0,0,0.06)] focus:outline-none focus:border-[#FF6F91] text-[#1F1F1F]"
                 />
               </div>
 
@@ -115,7 +117,7 @@ function EditProfile({ user }) {
                 <select
                   value={gender}
                   onChange={(e) => setGender(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg border border-[rgba(0,0,0,0.06)] focus:outline-none focus:border-[#FF6F91] bg-white"
+                  className="w-full px-3 py-2 rounded-lg border border-[rgba(0,0,0,0.06)] focus:outline-none focus:border-[#FF6F91] bg-white text-[#1F1F1F]"
                 >
                   <option value="">Select Gender</option>
                   <option value="male">Male</option>
@@ -132,14 +134,14 @@ function EditProfile({ user }) {
                 value={about}
                 onChange={(e) => setAbout(e.target.value)}
                 rows="4"
-                className="w-full px-3 py-2 rounded-lg border border-[rgba(0,0,0,0.06)] focus:outline-none focus:border-[#FF6F91] resize-none"
+                className="w-full px-3 py-2 rounded-lg border border-[rgba(0,0,0,0.06)] focus:outline-none focus:border-[#FF6F91] resize-none text-[#1F1F1F]"
                 placeholder="Write something about yourself..."
               ></textarea>
             </div>
 
             <div className="mt-6">
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 className="w-full bg-[#FF6F91] hover:bg-[#FF3C69] text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-200"
               >
                 Save Profile
@@ -151,7 +153,9 @@ function EditProfile({ user }) {
 
       {/* Live Preview Section */}
       <div className="w-full max-w-md">
-        <h2 className="text-xl font-bold mb-6 text-[#1F1F1F]">Profile Preview</h2>
+        <h2 className="text-xl font-bold mb-6 text-[#1F1F1F]">
+          Profile Preview
+        </h2>
         <UseCard user={{ firstName, lastName, photoUrl, age, gender, about }} />
       </div>
     </div>

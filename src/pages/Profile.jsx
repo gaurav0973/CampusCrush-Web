@@ -7,7 +7,7 @@ function Profile() {
     <div className="bg-[#FFF9FB] min-h-screen py-8">
       <div className="container mx-auto px-4">
         <h1 className="text-2xl md:text-3xl font-bold mb-8 text-center">
-          <span className="text-[#FF6F91]">Your</span> Profile
+          <span className="text-[#FF6F91]">Your Profile</span> 
         </h1>
         <EditProfile user={user}/>
       </div>

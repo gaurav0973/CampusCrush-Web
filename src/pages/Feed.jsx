@@ -1,49 +1,55 @@
-import axios from "axios"
-import { useDispatch, useSelector } from "react-redux"
-import { addFeed } from "../utils/feedSlice"
-import { useEffect } from "react"
-import UseCard from "../components/UseCard"
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { addFeed } from "../utils/feedSlice";
+import { useEffect } from "react";
+import UseCard from "../components/UseCard";
 
 function Feed() {
+  const dispatch = useDispatch();
+  const feed = useSelector((store) => store.feed);
 
-    const dispatch = useDispatch()
-    const feed = useSelector(store => store.feed)
-
-    const getFeed = async () => {
-        try {
-            if(feed)
-                return
-            const res = await axios.get("http://localhost:7777/user/feed", {withCredentials: true})
-            dispatch(addFeed(res?.data?.data))
-        } catch (error) {
-            console.log(error.message)
-        }
+  const getFeed = async () => {
+    try {
+      if (feed) return;
+      const res = await axios.get("http://localhost:7777/user/feed", {
+        withCredentials: true,
+      });
+      dispatch(addFeed(res?.data?.data));
+    } catch (error) {
+      console.log(error.message);
     }
+  };
 
-    useEffect(() => {
-        getFeed()
-    }, [])
+  useEffect(() => {
+    getFeed();
+  }, []);
 
-    if(!feed) {
-        return (
-            <div className="flex justify-center items-center min-h-screen bg-campus-light">
-                <div className="animate-pulse">
-                    <p className="text-lg font-semibold text-[#1F1F1F]">Loading feed...</p>
-                </div>
-            </div>
-        )
-    }
+  if (!feed) {
+    return (
+      <div className="flex justify-center items-center min-h-screen bg-campus-light">
+        <div className="animate-pulse">
+          <p className="text-lg font-semibold text-[#1F1F1F]">
+            Loading feed...
+          </p>
+        </div>
+      </div>
+    );
+  }
 
-    if (feed.length === 0) {
-        return (
-            <div className="flex justify-center items-center min-h-screen bg-campus-light">
-                <div className="text-center p-8 rounded-xl shadow-md bg-white">
-                    <p className="text-lg font-semibold text-[#1F1F1F]">No new connections found.</p>
-                    <p className="text-[#7B7B7B] mt-2">Check back later for new campus crushes!</p>
-                </div>
-            </div>
-        )
-    }
+  if (feed.length === 0) {
+    return (
+      <div className="flex justify-center items-center min-h-screen bg-campus-light">
+        <div className="text-center p-8 rounded-xl shadow-md bg-white">
+          <p className="text-lg font-semibold text-[#1F1F1F]">
+            No new connections found.
+          </p>
+          <p className="text-[#7B7B7B] mt-2">
+            Check back later for new campus crushes!
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     feed && (
@@ -56,6 +62,6 @@ function Feed() {
         </div>
       </div>
     )
-  )
+  );
 }
-export default Feed
+export default Feed;

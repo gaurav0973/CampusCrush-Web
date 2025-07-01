@@ -5,144 +5,273 @@ import { addUser } from "../utils/userSlice.js";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const [emailId, setEmailId] = useState("virat@gmail.com");
+  const [password, setPassword] = useState("Virat@123");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [isLogingForm, setIsLogingForm] = useState(true);
+  const [error, setError] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    const [emailId , setEmailId] = useState("virat@gmail.com");
-    const [password , setPassword] = useState("Virat@123");
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [isLogingForm, setIsLogingForm] = useState(true);
-    const [error, setError] = useState("");
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
-        
-        try {
-          const res = await axios.post("http://localhost:7777/login", {
-            emailId: emailId,
-            password: password
-          }, {withCredentials: true})
-          dispatch(addUser(res.data.data))
-          navigate("/")
-        } catch (error) {
-          setError(error.response?.data?.message || "Login failed. Please try again.");
-        } 
-        
+    try {
+      const res = await axios.post(
+        "http://localhost:7777/login",
+        {
+          emailId: emailId,
+          password: password,
+        },
+        { withCredentials: true }
+      );
+      dispatch(addUser(res.data.data));
+      navigate("/");
+    } catch (error) {
+      setError(
+        error.response?.data?.message || "Login failed. Please try again."
+      );
     }
+  };
 
-    const handleSignUp = async (e) => {
-        e.preventDefault();
-        try {
-          const res = await axios.post("http://localhost:7777/signup", {
-            emailId: emailId,
-            password: password,
-            firstName: firstName,
-            lastName: lastName
-          }, {withCredentials: true})
-          // console.log("sign up called", res.data.data)
-          dispatch(addUser(res.data.data))
-          return navigate("/profile")
-        } catch (error) {
-          setError(error.response?.data?.message || "Sign up failed. Please try again.");
-          
-        }
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(
+        "http://localhost:7777/signup",
+        {
+          emailId: emailId,
+          password: password,
+          firstName: firstName,
+          lastName: lastName,
+        },
+        { withCredentials: true }
+      );
+      // console.log("sign up called", res.data.data)
+      dispatch(addUser(res.data.data));
+      return navigate("/profile");
+    } catch (error) {
+      setError(
+        error.response?.data?.message || "Sign up failed. Please try again."
+      );
     }
+  };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-[#FFF9FB] px-4 py-12">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-10">
-          <h1 className="text-3xl font-bold mb-2">
-            <span className="text-[#FF6F91]">Campus</span>
-            <span className="text-[#1F1F1F]">Crush</span>
-            <span className="ml-1">💌</span>
-          </h1>
-          <p className="text-[#7B7B7B]">Find your perfect campus match</p>
+    <div className="flex flex-col items-center justify-center min-h-screen px-4 py-12 relative overflow-hidden emoji-bg bg-gradient-to-br from-[#FFECF2] via-[#FFF9FB] to-[#F0F9FF]">
+      {/* Modern background elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-10 -left-10 w-72 h-72 rounded-full bg-gradient-to-r from-[#FF6F91]/20 to-[#FF3C69]/10 blur-3xl"></div>
+        <div className="absolute -bottom-10 -right-10 w-80 h-80 rounded-full bg-gradient-to-l from-[#6EC5E9]/20 to-[#89D4F1]/10 blur-3xl"></div>
+        <div className="absolute top-1/4 right-1/3 w-40 h-40 rounded-full bg-gradient-to-tr from-[#FF8EA6]/10 to-[#FFB5C1]/5 blur-2xl"></div>
+
+        {/* Floating emojis */}
+        <div
+          className="absolute top-[15%] left-[10%] text-4xl float-animation"
+          style={{ animationDelay: "0.5s" }}
+        >
+          ✨
         </div>
-        
-        <div className="bg-white rounded-xl shadow-md p-8">
-          <h2 className="text-2xl font-bold text-center mb-6 text-[#1F1F1F]">
-            {isLogingForm ? "Welcome Back!" : "Create Your Account"}
-          </h2>
-          
+        <div
+          className="absolute bottom-[20%] right-[15%] text-4xl float-animation"
+          style={{ animationDelay: "1.2s" }}
+        >
+          💕
+        </div>
+        <div
+          className="absolute top-[35%] right-[10%] text-3xl float-animation"
+          style={{ animationDelay: "2.1s" }}
+        >
+          🔥
+        </div>
+        <div
+          className="absolute bottom-[35%] left-[20%] text-3xl float-animation"
+          style={{ animationDelay: "1.8s" }}
+        >
+          ✌️
+        </div>
+      </div>
+
+      <div className="w-full max-w-md z-10 fade-in">
+        <div className="text-center mb-8 slide-up">
+          <div className="inline-block relative">
+            <h1 className="text-5xl font-extrabold mb-2 bg-gradient-to-r from-[#FF3C69] to-[#FF8EA6] text-transparent bg-clip-text">
+              Campus<span className="font-black">Crush</span>
+            </h1>
+            <span className="absolute -right-8 -top-3 text-4xl rotate-emoji-animation">
+              �
+            </span>
+          </div>
+          <p className="text-[#7B7B7B] mt-3 text-lg">
+            Find your perfect campus match
+          </p>
+        </div>
+
+        <div className="glassmorphism rounded-2xl shadow-2xl p-8 transition-all duration-500 border-t border-l border-white/20">
+          <div className="relative mb-8">
+            <h2 className="text-2xl font-bold text-center bg-gradient-to-r from-[#FF3C69] to-[#FF8EA6] text-transparent bg-clip-text slide-up">
+              {isLogingForm ? "Welcome Back! 👋" : "Create Your Account ✨"}
+            </h2>
+            <div className="w-20 h-1.5 bg-campus-gradient-animated mx-auto mt-3 rounded-full"></div>
+          </div>
+
           {!isLogingForm && (
-            <div className="grid grid-cols-2 gap-4 mb-4">
+            <div
+              className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 slide-up"
+              style={{ animationDelay: "0.1s" }}
+            >
               <div className="mb-4">
-                <label className="block text-sm font-medium text-[#1F1F1F] mb-1">
+                <label className="block text-sm font-medium mb-1 bg-gradient-to-r from-[#FF3C69] to-[#FF8EA6] text-transparent bg-clip-text">
                   First Name
                 </label>
-                <input 
-                  type="text" 
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                  placeholder="Enter first name" 
-                  className="w-full px-3 py-2 rounded-lg border border-[rgba(0,0,0,0.06)] focus:outline-none focus:border-[#FF6F91]" 
-                />
+                <div className="relative group">
+                  <input
+                    type="text"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    placeholder="Enter first name"
+                    className="w-full px-3 py-3 rounded-xl bg-white/60 backdrop-blur-sm border border-white/30 shadow-inner focus:outline-none focus:border-[#FF6F91] focus:ring-2 focus:ring-[#FF6F91]/20 transition-all text-[#1F1F1F] group-hover:shadow-lg pl-9"
+                  />
+                  <span className="absolute left-3 top-3.5">👤</span>
+                </div>
               </div>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-[#1F1F1F] mb-1">
+                <label className="block text-sm font-medium mb-1 bg-gradient-to-r from-[#FF3C69] to-[#FF8EA6] text-transparent bg-clip-text">
                   Last Name
                 </label>
-                <input 
-                  type="text" 
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                  placeholder="Enter last name" 
-                  className="w-full px-3 py-2 rounded-lg border border-[rgba(0,0,0,0.06)] focus:outline-none focus:border-[#FF6F91]" 
-                />
+                <div className="relative group">
+                  <input
+                    type="text"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    placeholder="Enter last name"
+                    className="w-full px-3 py-3 rounded-xl bg-white/60 backdrop-blur-sm border border-white/30 shadow-inner focus:outline-none focus:border-[#FF6F91] focus:ring-2 focus:ring-[#FF6F91]/20 transition-all text-[#1F1F1F] group-hover:shadow-lg pl-9"
+                  />
+                  <span className="absolute left-3 top-3.5">👤</span>
+                </div>
               </div>
             </div>
           )}
-          
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-[#1F1F1F] mb-1">
+
+          <div className="mb-4 slide-up" style={{ animationDelay: "0.2s" }}>
+            <label className="block text-sm font-medium mb-1 bg-gradient-to-r from-[#FF3C69] to-[#FF8EA6] text-transparent bg-clip-text">
               Email
             </label>
-            <input 
-              type="email" 
-              value={emailId}
-              onChange={(e) => setEmailId(e.target.value)}
-              placeholder="Enter your email" 
-              className="w-full px-3 py-2 rounded-lg border border-[rgba(0,0,0,0.06)] focus:outline-none focus:border-[#FF6F91]" 
-            />
+            <div className="relative group">
+              <input
+                type="email"
+                value={emailId}
+                onChange={(e) => setEmailId(e.target.value)}
+                placeholder="Enter your email"
+                className="w-full px-3 py-3 pl-10 rounded-xl bg-white/60 backdrop-blur-sm border border-white/30 shadow-inner focus:outline-none focus:border-[#FF6F91] focus:ring-2 focus:ring-[#FF6F91]/20 transition-all text-[#1F1F1F] group-hover:shadow-lg"
+              />
+              <span className="absolute left-3 top-3.5">📧</span>
+            </div>
           </div>
 
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-[#1F1F1F] mb-1">
+          <div className="mb-6 slide-up" style={{ animationDelay: "0.3s" }}>
+            <label className="block text-sm font-medium mb-1 bg-gradient-to-r from-[#FF3C69] to-[#FF8EA6] text-transparent bg-clip-text">
               Password
             </label>
-            <input 
-              type="password" 
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password" 
-              className="w-full px-3 py-2 rounded-lg border border-[rgba(0,0,0,0.06)] focus:outline-none focus:border-[#FF6F91]" 
-            />
+            <div className="relative group">
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter your password"
+                className="w-full px-3 py-3 pl-10 rounded-xl bg-white/60 backdrop-blur-sm border border-white/30 shadow-inner focus:outline-none focus:border-[#FF6F91] focus:ring-2 focus:ring-[#FF6F91]/20 transition-all text-[#1F1F1F] group-hover:shadow-lg"
+              />
+              <span className="absolute left-3 top-3.5">🔒</span>
+            </div>
           </div>
-          
+
           {error && (
-            <div className="mb-4 p-3 bg-red-50 border-l-4 border-red-500 text-red-700 text-sm rounded">
-              {error}
+            <div className="mb-4 p-4 bg-red-50/50 backdrop-blur-sm border border-red-200 text-red-600 text-sm rounded-xl slide-up flex items-center">
+              <span className="mr-2 text-lg">⚠️</span>
+              <p>{error}</p>
             </div>
           )}
 
           <button
             onClick={isLogingForm ? handleLogin : handleSignUp}
             type="submit"
-            className="w-full bg-[#FF6F91] hover:bg-[#FF3C69] text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-200 mb-4">
-            {isLogingForm ? "Login" : "Sign Up"}
+            className="w-full bg-gradient-to-r from-[#FF3C69] to-[#FF8EA6] text-white font-bold py-3.5 px-4 rounded-xl transition-all duration-300 mb-6 slide-up btn-ripple hover:shadow-lg hover:shadow-[#FF6F91]/20 transform hover:-translate-y-1"
+            style={{ animationDelay: "0.4s" }}
+          >
+            {isLogingForm ? (
+              <span className="flex items-center justify-center text-lg">
+                <span className="mr-2">🚀</span>
+                Login
+              </span>
+            ) : (
+              <span className="flex items-center justify-center text-lg">
+                <span className="mr-2">✨</span>
+                Sign Up
+              </span>
+            )}
           </button>
-          
-          <div className="text-center">
+
+          <div
+            className="text-center slide-up"
+            style={{ animationDelay: "0.5s" }}
+          >
             <button
               onClick={() => setIsLogingForm((isLogingForm) => !isLogingForm)}
               type="button"
-              className="text-[#FF6F91] hover:text-[#FF3C69] font-medium transition-colors"
+              className="text-[#FF6F91] hover:text-[#FF3C69] font-medium transition-all duration-300 relative group bg-white/30 px-4 py-2 rounded-full hover:bg-white/50 backdrop-blur-sm border border-white/20 shadow-sm"
             >
-              {isLogingForm ? "Create a new account" : "Already have an account?"}
+              {isLogingForm ? (
+                <span className="flex items-center">
+                  <span className="mr-1">🤩</span>
+                  Create a new account
+                </span>
+              ) : (
+                <span className="flex items-center">
+                  <span className="mr-1">👋</span>
+                  Already have an account?
+                </span>
+              )}
             </button>
           </div>
+        </div>
+
+        {/* Trendy visual element */}
+        <div
+          className="mt-8 flex justify-center opacity-80 slide-up"
+          style={{ animationDelay: "0.7s" }}
+        >
+          <div className="flex space-x-2">
+            <div className="w-2 h-2 rounded-full bg-[#FF3C69] animate-pulse"></div>
+            <div
+              className="w-2 h-2 rounded-full bg-[#FF6F91] animate-pulse"
+              style={{ animationDelay: "0.2s" }}
+            ></div>
+            <div
+              className="w-2 h-2 rounded-full bg-[#FF8EA6] animate-pulse"
+              style={{ animationDelay: "0.4s" }}
+            ></div>
+          </div>
+        </div>
+      </div>
+
+      {/* Gen Z style footer */}
+      <div className="absolute bottom-4 text-center w-full text-sm text-[#7B7B7B] flex flex-col items-center">
+        <div className="flex items-center space-x-2 mb-1">
+          <span>Made with</span>
+          <span className="heartbeat text-lg">❤️</span>
+          <span>for college students</span>
+        </div>
+        <div className="flex space-x-3">
+          <span className="hover:text-[#FF3C69] cursor-pointer transition-colors">
+            Privacy
+          </span>
+          <span className="hover:text-[#FF3C69] cursor-pointer transition-colors">
+            Terms
+          </span>
+          <span className="hover:text-[#FF3C69] cursor-pointer transition-colors">
+            Support
+          </span>
         </div>
       </div>
     </div>

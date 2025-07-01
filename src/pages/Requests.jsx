@@ -10,18 +10,19 @@ function Requests() {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const res = await axios.get("http://localhost:7777/user/request/received", {
-          withCredentials: true,
-        });
+        const res = await axios.get(
+          "http://localhost:7777/user/request/received",
+          {
+            withCredentials: true,
+          }
+        );
         dispatch(addRequest(res?.data?.data));
       } catch (error) {
-        console.log("Error fetching requests:", error
-        );  
+        console.log("Error fetching requests:", error);
       }
     };
 
-    if (!requests?.length) 
-        fetchRequests();
+    if (!requests?.length) fetchRequests();
   }, [dispatch, requests]);
 
   const handleReview = async (status, _id) => {
@@ -35,7 +36,6 @@ function Requests() {
       );
       console.log("Review response:", res);
 
-      
       dispatch(removeRequest(_id));
     } catch (error) {
       console.error("Error handling review:", error);
@@ -46,7 +46,9 @@ function Requests() {
     return (
       <div className="flex justify-center items-center min-h-screen bg-[#FFF9FB]">
         <div className="animate-pulse">
-          <p className="text-lg font-semibold text-[#1F1F1F]">Loading requests...</p>
+          <p className="text-lg font-semibold text-[#1F1F1F]">
+            Loading requests...
+          </p>
         </div>
       </div>
     );
@@ -56,11 +58,26 @@ function Requests() {
     return (
       <div className="flex justify-center items-center min-h-screen bg-[#FFF9FB]">
         <div className="text-center p-8 rounded-xl shadow-md bg-white max-w-md">
-          <svg className="w-16 h-16 mx-auto mb-4 text-[#FF6F91]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+          <svg
+            className="w-16 h-16 mx-auto mb-4 text-[#FF6F91]"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+            ></path>
           </svg>
-          <p className="text-lg font-semibold text-[#1F1F1F]">No crush requests yet</p>
-          <p className="text-[#7B7B7B] mt-2">When someone shows interest in you, their request will appear here.</p>
+          <p className="text-lg font-semibold text-[#1F1F1F]">
+            No crush requests yet
+          </p>
+          <p className="text-[#7B7B7B] mt-2">
+            When someone shows interest in you, their request will appear here.
+          </p>
         </div>
       </div>
     );
@@ -72,12 +89,16 @@ function Requests() {
         <h1 className="text-2xl md:text-3xl font-bold mb-8 text-center">
           <span className="text-[#FF6F91]">Crush</span> Requests
         </h1>
-        
+
         <div className="max-w-3xl mx-auto grid grid-cols-1 gap-6">
           {requests.map((request) => {
-            const { firstName, lastName, photoUrl, age, _id, about, gender } = request.fromUserId;
+            const { firstName, lastName, photoUrl, age, _id, about, gender } =
+              request.fromUserId;
             return (
-              <div key={_id} className="bg-white rounded-xl shadow-md overflow-hidden transition-transform hover:shadow-lg">
+              <div
+                key={_id}
+                className="bg-white rounded-xl shadow-md overflow-hidden transition-transform hover:shadow-lg"
+              >
                 <div className="bg-campus-gradient h-1 w-full"></div>
                 <div className="p-6">
                   <div className="flex items-start md:items-center flex-col md:flex-row gap-5">
@@ -91,7 +112,9 @@ function Requests() {
                       </div>
                     </div>
                     <div className="flex-grow">
-                      <h2 className="text-xl font-bold text-[#1F1F1F]">{firstName} {lastName}</h2>
+                      <h2 className="text-xl font-bold text-[#1F1F1F]">
+                        {firstName} {lastName}
+                      </h2>
                       <div className="flex items-center mt-1 space-x-2">
                         {age && (
                           <span className="bg-[#FF6F91] bg-opacity-10 text-[#FF6F91] px-2 py-1 rounded-full text-xs font-medium">
@@ -105,9 +128,7 @@ function Requests() {
                         )}
                       </div>
                       {about && (
-                        <p className="text-[#7B7B7B] mt-2 text-sm">
-                          {about}
-                        </p>
+                        <p className="text-[#7B7B7B] mt-2 text-sm">{about}</p>
                       )}
                     </div>
                   </div>
