@@ -4,6 +4,7 @@ import UseCard from "./UseCard";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import { API_BASE_URL } from "../constants/constant.js";
 
 function EditProfile({ user }) {
   const [firstName, setFirstName] = useState(user.firstName || "");
@@ -21,7 +22,7 @@ function EditProfile({ user }) {
     setError("");
     try {
       const res = await axios.patch(
-        "http://localhost:7777/profile/edit",
+        `${API_BASE_URL}/profile/edit`,
         {
           firstName,
           lastName,

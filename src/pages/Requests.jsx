@@ -1,7 +1,8 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addRequest, removeRequest } from "../utils/requestSlice";
+import { addRequest, removeRequest } from "../utils/requestSlice.js";
+import { API_BASE_URL } from "../constants/constant.js";
 
 function Requests() {
   const dispatch = useDispatch();
@@ -10,7 +11,7 @@ function Requests() {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const res = await axios.get("http://localhost:7777/user/request/received",{withCredentials: true});
+        const res = await axios.get(`${API_BASE_URL}/user/request/received`,{withCredentials: true});
         dispatch(addRequest(res?.data?.data));
       } catch (error) {
         console.log("Error fetching requests:", error.message);
@@ -24,7 +25,7 @@ function Requests() {
   const handleReview = async (status, _id) => {
     try {
       const res = await axios.post(
-        `http://localhost:7777/request/review/${status}/${_id}`,
+        `${API_BASE_URL}/request/review/${status}/${_id}`,
         {},
         {
           withCredentials: true,

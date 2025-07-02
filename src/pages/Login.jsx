@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice.js";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../constants/constant.js";
 
 function Login() {
   const [emailId, setEmailId] = useState("virat@gmail.com");
@@ -19,7 +20,7 @@ function Login() {
 
     try {
       const res = await axios.post(
-        "http://localhost:7777/login",
+        `${API_BASE_URL}/login`,
         {
           emailId: emailId,
           password: password,
@@ -39,7 +40,7 @@ function Login() {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:7777/signup",
+        `${API_BASE_URL}/signup`,
         {
           emailId: emailId,
           password: password,
