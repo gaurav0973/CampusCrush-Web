@@ -7,6 +7,7 @@ import Feed from "./pages/Feed.jsx"
 import Profile from "./pages/Profile.jsx"
 import Connections from "./pages/Connections.jsx"
 import Requests from "./pages/Requests.jsx"
+import Chat from "./pages/Chat.jsx"
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
               <Route path="/profile" element={<Profile/>}/>
               <Route path="/connections" element={<Connections/>}/>
               <Route path="/requests" element={<Requests/>}/>
+              <Route path="/chat/:targetUserId" element={<Chat/>}/>
             </Route>
             
           </Routes>

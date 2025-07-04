@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addConnections } from "../utils/connections.js";
 import { API_BASE_URL } from "../constants/constant.js";
+import { Link } from "react-router-dom";
 
 function Connections() {
   const dispatch = useDispatch();
@@ -82,7 +83,7 @@ function Connections() {
     <div className="min-h-screen bg-[#FFF9FB] py-8">
       <div className="container mx-auto px-4">
         <h1 className="text-2xl md:text-3xl font-bold mb-2 text-center fade-in">
-          <span className="text-[#FF6F91]">Your</span> Connections
+          <span className="text-[#FF6F91]">Your Connections</span>
         </h1>
 
         <div className="w-20 h-1 mx-auto bg-campus-gradient-animated rounded-full mb-8 fade-in"></div>
@@ -94,12 +95,11 @@ function Connections() {
             return (
               <div
                 key={_id}
-                className="bg-white rounded-xl shadow-md overflow-hidden card-hover fade-in"
+                className="bg-white rounded-xl shadow-md overflow-hidden card-hover fade-in transition-transform duration-300 transform hover:scale-105 group"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="relative">
-                  <div className="bg-campus-gradient-animated h-1 w-full"></div>
-                  <div className="p-6">
+                <div className="relative group-hover:shadow-lg transition-shadow duration-300 ">
+                  <div className="p-6 hover:bg-[#FFF9FB] transition-colors duration-300 ">
                     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
                       <div className="relative">
                         <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-[#FF6F91] hover:border-[#FF3C69] transition-colors duration-300">
@@ -171,24 +171,16 @@ function Connections() {
                         <p className="text-[#7B7B7B] text-sm">{about}</p>
                       </div>
                     )}
-                    <div className="mt-5 flex justify-end">
-                      <button className="bg-white border border-[#FF6F91] text-[#FF6F91] font-medium py-2 px-5 rounded-lg hover:bg-[#FF6F91] hover:text-white transition-all duration-300 btn-ripple flex items-center">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-4 w-4 mr-2"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
-                          />
-                        </svg>
-                        Message
-                      </button>
+                    <div className="mt-4 flex justify-between items-center">
+                      <Link
+                        to={`/chat/${_id}`}
+                        className="text-[#FF6F91] hover:text-[#FF3C69] transition-colors duration-300 flex items-center"
+                      >
+                        <button className="bg-white border border-[#FF6F91] text-[#FF6F91] font-medium py-2 px-5 rounded-lg hover:bg-[#FF6F91] hover:text-white transition-all duration-300 btn-ripple flex items-center">
+                          Message
+                        </button>
+                      </Link>
+
                     </div>
                   </div>
                 </div>
