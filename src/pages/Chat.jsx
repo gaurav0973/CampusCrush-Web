@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { createSocketConnection } from "../utils/socket.js";
@@ -14,7 +15,41 @@ function Chat() {
   const [targetUser, setTargetUser] = useState(null);
   const [error, setError] = useState(null);
   const socketRef = useRef(null);
-  const messagesContainerRef = useRef(null); // Renamed from messagesEndRef
+  const messagesContainerRef = useRef(null); 
+
+  
+const fetchChatMessages = async () => {
+  try {
+    const chat = await axios.get(`${API_BASE_URL}/chat/${targetUserId}`, {
+      withCredentials: true,
+    });
+    console.log("Chat messages:", chat.data.messages);
+    
+    // Transform API response format to match your component's message format
+    const formattedMessages = chat.data.messages.map(msg => ({
+      id: msg._id,
+      userId: msg.senderId._id,
+      targetUserId: targetUserId,
+      text: msg.text,
+      timestamp: msg.createdAt,
+      firstName: msg.senderId.firstName,
+      lastName: msg.senderId.lastName
+    }));
+    
+    // Set messages to state
+    setMessages(formattedMessages);
+  } catch (error) {
+    console.error("Error fetching chat messages:", error);
+    setError("Failed to load messages.");
+  }
+};
+
+  useEffect(()=>{
+    fetchChatMessages()
+  }, [])
+
+
+
 
   const getTargetUserInfo = async () => {
     try {
@@ -36,12 +71,11 @@ function Chat() {
     getTargetUserInfo();
   }, [targetUserId]);
 
-  // Improved scroll to bottom that only affects the chat container
-  const scrollToBottom = () => {
+  function scrollToBottom() {
     if (messagesContainerRef.current) {
       messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
     }
-  };
+  }
 
   useEffect(() => {
     scrollToBottom();
@@ -112,12 +146,11 @@ function Chat() {
           <div>
             <h2 className="text-lg font-bold text-[#1F1F1F]">
               {targetUser?.firstName || "Loading..."}
-              {targetUser?.lastName ? ` ${targetUser.lastName}` : ""}
             </h2>
           </div>
         </div>
 
-        {/* Messages - Reference assigned to the div itself instead of an empty div at the end */}
+        {/* Messages Container */}
         <div 
           ref={messagesContainerRef}
           className="h-[calc(100vh-280px)] overflow-y-auto p-4 space-y-4 bg-[#FFF9FB]/50"
@@ -155,7 +188,6 @@ function Chat() {
               <p className="text-[#7B7B7B]">No messages yet</p>
             </div>
           )}
-          {/* Removed the empty div with messagesEndRef */}
         </div>
 
         {/* Input */}
