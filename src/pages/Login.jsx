@@ -4,14 +4,14 @@ import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice.js";
 import { useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../constants/constant.js";
+import toastUtils from "../utils/toastUtils.js";
 
 function Login() {
-  const [emailId, setEmailId] = useState("virat@gmail.com");
-  const [password, setPassword] = useState("Virat@123");
+  const [emailId, setEmailId] = useState("");
+  const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [isLogingForm, setIsLogingForm] = useState(true);
-  const [error, setError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -19,6 +19,7 @@ function Login() {
     e.preventDefault();
 
     try {
+      const loadingToast = toastUtils.loading("Logging in...");
       const res = await axios.post(
         `${API_BASE_URL}/login`,
         {
@@ -27,10 +28,12 @@ function Login() {
         },
         { withCredentials: true }
       );
+      toastUtils.dismiss(loadingToast);
+      toastUtils.success("Login successful!");
       dispatch(addUser(res.data.data));
       navigate("/");
     } catch (error) {
-      setError(
+      toastUtils.error(
         error.response?.data?.message || "Login failed. Please try again."
       );
     }
@@ -39,6 +42,7 @@ function Login() {
   const handleSignUp = async (e) => {
     e.preventDefault();
     try {
+      const loadingToast = toastUtils.loading("Creating account...");
       const res = await axios.post(
         `${API_BASE_URL}/signup`,
         {
@@ -49,11 +53,12 @@ function Login() {
         },
         { withCredentials: true }
       );
-      // console.log("sign up called", res.data.data)
+      toastUtils.dismiss(loadingToast);
+      toastUtils.success("Account created successfully!");
       dispatch(addUser(res.data.data));
       return navigate("/profile");
     } catch (error) {
-      setError(
+      toastUtils.error(
         error.response?.data?.message || "Sign up failed. Please try again."
       );
     }
@@ -186,13 +191,6 @@ function Login() {
               <span className="absolute left-3 top-3.5">🔒</span>
             </div>
           </div>
-
-          {error && (
-            <div className="mb-4 p-4 bg-red-50/50 backdrop-blur-sm border border-red-200 text-red-600 text-sm rounded-xl slide-up flex items-center">
-              <span className="mr-2 text-lg">⚠️</span>
-              <p>{error}</p>
-            </div>
-          )}
 
           <button
             onClick={isLogingForm ? handleLogin : handleSignUp}

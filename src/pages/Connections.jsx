@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addConnections } from "../utils/connections.js";
 import { API_BASE_URL } from "../constants/constant.js";
 import { Link } from "react-router-dom";
+import toastUtils from "../utils/toastUtils.js";
 
 function Connections() {
   const dispatch = useDispatch();
@@ -19,11 +20,12 @@ function Connections() {
         dispatch(addConnections(res?.data?.data));
       } catch (error) {
         console.error("Error fetching connections:", error);
+        toastUtils.error("Failed to load connections. Please try again later.");
       }
     };
 
     fetchConnections();
-  }, []);
+  }, [connections?.length, dispatch]);
 
   if (!connections) {
     return (
@@ -180,7 +182,6 @@ function Connections() {
                           Message
                         </button>
                       </Link>
-
                     </div>
                   </div>
                 </div>

@@ -5,6 +5,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { API_BASE_URL } from "../constants/constant.js";
+import toastUtils from "../utils/toastUtils.js";
 
 function EditProfile({ user }) {
   const [firstName, setFirstName] = useState(user.firstName || "");
@@ -13,14 +14,13 @@ function EditProfile({ user }) {
   const [age, setAge] = useState(user.age ? Number(user.age) : "");
   const [gender, setGender] = useState(user.gender || "");
   const [about, setAbout] = useState(user.about || "");
-  const [error, setError] = useState("");
 
   const dispatch = useDispatch();
 
   const saveProfile = async (e) => {
     e.preventDefault();
-    setError("");
     try {
+      const loadingToast = toastUtils.loading("Saving profile...");
       const res = await axios.patch(
         `${API_BASE_URL}/profile/edit`,
         {
@@ -33,10 +33,12 @@ function EditProfile({ user }) {
         },
         { withCredentials: true }
       );
+      toastUtils.dismiss(loadingToast);
+      toastUtils.success("Profile updated successfully!");
       console.log("save profile called", res?.data?.data);
       dispatch(addUser(res?.data?.data));
     } catch (error) {
-      setError("Failed to save profile. Please try again.");
+      toastUtils.error("Failed to save profile. Please try again.");
       console.error("Error saving profile:", error);
     }
   };
@@ -49,12 +51,6 @@ function EditProfile({ user }) {
           <h2 className="text-xl font-bold mb-6 text-[#1F1F1F] border-b border-[rgba(0,0,0,0.06)] pb-3">
             Edit Your Profile
           </h2>
-
-          {error && (
-            <div className="mb-6 p-3 bg-red-50 border-l-4 border-red-500 text-red-700 text-sm rounded">
-              {error}
-            </div>
-          )}
 
           <form onSubmit={saveProfile} className="space-y-5">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">

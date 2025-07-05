@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addRequest, removeRequest } from "../utils/requestSlice.js";
 import { API_BASE_URL } from "../constants/constant.js";
+import toastUtils from "../utils/toastUtils.js";
 
 function Requests() {
   const dispatch = useDispatch();
@@ -11,19 +12,24 @@ function Requests() {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const res = await axios.get(`${API_BASE_URL}/user/request/received`,{withCredentials: true});
+        const res = await axios.get(`${API_BASE_URL}/user/request/received`, {
+          withCredentials: true,
+        });
         dispatch(addRequest(res?.data?.data));
       } catch (error) {
         console.log("Error fetching requests:", error.message);
+        toastUtils.error("Failed to load requests. Please try again later.");
       }
     };
 
-    if (!requests?.length) 
-      fetchRequests();
-  }, []);
+    if (!requests?.length) fetchRequests();
+  }, [dispatch, requests?.length]);
 
   const handleReview = async (status, _id) => {
     try {
+      const loadingToast = toastUtils.loading(
+        status === "accept" ? "Accepting request..." : "Declining request..."
+      );
       const res = await axios.post(
         `${API_BASE_URL}/request/review/${status}/${_id}`,
         {},
@@ -31,10 +37,15 @@ function Requests() {
           withCredentials: true,
         }
       );
+      toastUtils.dismiss(loadingToast);
+      toastUtils.success(
+        status === "accept" ? "Request accepted!" : "Request declined"
+      );
       console.log("Review response:", res);
 
       dispatch(removeRequest(_id));
     } catch (error) {
+      toastUtils.error("Failed to process request. Please try again.");
       console.error("Error handling review:", error);
     }
   };
@@ -83,9 +94,10 @@ function Requests() {
   return (
     <div className="min-h-screen bg-[#FFF9FB] py-8">
       <div className="container mx-auto px-4">
-        <h1 className="text-2xl md:text-3xl font-bold mb-8 text-center">
-          <span className="text-[#FF6F91]">Crush</span> Requests
+        <h1 className="text-2xl md:text-3xl font-bold mb-2 text-center fade-in">
+          <span className="text-[#FF6F91] ">Crush Requests</span>
         </h1>
+        <div className="w-20 h-1 mx-auto bg-campus-gradient-animated rounded-full mb-8 fade-in"></div>
 
         <div className="max-w-3xl mx-auto grid grid-cols-1 gap-6">
           {requests.map((request) => {
